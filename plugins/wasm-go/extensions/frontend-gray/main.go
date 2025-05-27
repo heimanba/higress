@@ -142,9 +142,6 @@ func onHttpResponseHeader(ctx wrapper.HttpContext, grayConfig config.GrayConfig)
 	if !htmlOk || !isHtmlRequest {
 		ctx.DontReadResponseBody()
 		return types.ActionContinue
-	} else {
-		// 不会进去Streaming 的Body处理
-		ctx.BufferResponseBody()
 	}
 	// 处理HTML的首页
 	status, err := proxywasm.GetHttpResponseHeader(":status")
@@ -165,7 +162,6 @@ func onHttpResponseHeader(ctx wrapper.HttpContext, grayConfig config.GrayConfig)
 			delete(headersMap, "content-length")
 			headersMap[":status"][0] = "200"
 			headersMap["content-type"][0] = "text/html"
-			ctx.BufferResponseBody()
 			proxywasm.ReplaceHttpResponseHeaders(util.ReconvertHeaders(headersMap))
 		} else {
 			route, _ := util.GetRouteName()

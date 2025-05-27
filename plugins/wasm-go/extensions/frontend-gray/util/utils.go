@@ -165,7 +165,7 @@ func CheckIsHtmlRequest(requestPath string) bool {
 		return true
 	}
 	ext := path.Ext(requestPath)
-	return ext == "" || ContainsValue(indexSuffixes, ext)
+	return ContainsValue(indexSuffixes, ext)
 }
 
 // SortKeysByLengthAndLexicographically 按长度降序和字典序排序键
